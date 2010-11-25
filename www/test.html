@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        
+		<title>aligning</title>
+        <script type="text/javascript" src="core.js"></script>
+        <script type="text/javascript">
+function A() {
+	
+}
+
+A.prototype = (function(proto) {
+	var _x = '';
+	proto.setX = function(x) {
+		return function() {
+			_x = x;
+			return this;
+		}
+	}(_x);
+	proto.getX = function() {
+		return _x;
+	};
+	return proto;
+})(A.prototype);
+
+function B() {
+	
+}
+
+Class.extend(B, A, {});
+
+var a1 = new A();
+var a2 = new B();
+a1.setX('shark');
+console.log(a1.getX());
+a2.setX('barracuda')
+console.log(a1.getX());
+        </script>
+    </head>
+    <body>
+       
+    </body>
+</html>
