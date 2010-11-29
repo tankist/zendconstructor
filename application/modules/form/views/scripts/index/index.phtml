@@ -72,7 +72,7 @@
 	<div class="shadow"><?=$this->translate('form.loadingText')?></div>
 	<div class="progress"><?=$this->translate('form.loadingText')?></div>
 </div>
-<div class="optionsDialog" style="display: none;">
+<div id="optionsDialog" style="display: none;">
 	<dl>
 		<dt><label for="decorator-name">Name:</label></dt>
 		<dd><input type="text" name="decorator-name" id="decorator-name" /></dd>
@@ -124,6 +124,8 @@
 <?php
 
 $this->headScript()
+	->appendFile('/js/underscore/underscore.js')
+	->appendFile('/js/backbone/backbone.js')
 	->appendFile('/js/jquery/jquery-1.4.4.js')
 	->appendFile('/js/jquery/jquery-ui.js')
 //			->appendFile('http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js')

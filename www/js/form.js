@@ -1,3 +1,13 @@
+Math.randRange = function(min, max) {
+	return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+var FormsController = Backbone.Controller.extend({
+	routes : {
+		
+	}
+});
+
 $(function() {
 	
 	$('form').ajaxForm({
@@ -9,15 +19,20 @@ $(function() {
 			var hC = $('#hiddenContainer').empty();
 			
 			function _createHiddenFields(hiddenFieldName) {
-				var name = $(this).data('decoratorName'), options = $(this).data('decoratorOptions');
+				var name = $(this).data('decoratorName'), 
+					options = $(this).data('decoratorOptions');
+				hiddenFieldName += '[' + this.index + ']';
 				if (!name && !options) {
 					return;
 				}
-				if (name)
-					$('<input type="hidden" name="' + hiddenFieldName + '[' + this.index + '][decoratorName]">').val(name).appendTo(hC);
-				if (options)
-					$('<input type="hidden" name="' + hiddenFieldName + '[' + this.index + '][decoratorOptions]">').val(JSON.stringify(options)).appendTo(hC);
-				$('<input type="hidden" name="' + hiddenFieldName + '[' + this.index + '][decoratorType]">').val(this.value).appendTo(hC);
+				if (name) {
+					$('<input type="hidden" name="' + hiddenFieldName + '[decoratorName]">').val(name).appendTo(hC);
+				}
+				if (options) {
+					var optionsString = JSON.stringify(options);
+					$('<input type="hidden" name="' + hiddenFieldName + '[decoratorOptions]">').val(optionsString).appendTo(hC);
+				}
+				$('<input type="hidden" name="' + hiddenFieldName + '[decoratorType]">').val(this.value).appendTo(hC);
 			}
 			
 			$('#selectedFormDecorators option').each(function () {
@@ -71,7 +86,7 @@ $(function() {
 		});
 	
 	$('#form-edit ').find('select, input, button').uniform();
-	$('.optionsDialog input').uniform();
+	$('#optionsDialog input').uniform();
 	
 	addEmptyRow();
 	addEmptyRow();
@@ -86,190 +101,190 @@ $(function() {
 		placeholder: 'ui-state-highlight'
 	}); 
 	
-	$('.bigListContainer').excangeableList({
-		onSecondaryOptionDblClick:function() {
-			var _option = $(this);
-			$('.optionsDialog')
-				.decoratorOptionsDialog({
-					title:$(this).text() + ' options',
-					width:400,
-					kvContainer:'#decorator-options',
-					onSave:function(kv) {
-						_option.data('decoratorName', this.getName());
-						_option.data('decoratorOptions', kv);
-					},
-					row:'decoratorOption'
-				})
-				.decoratorOptionsDialog('setKVRows', _option.data('decoratorOptions') || {'':''})
-				.decoratorOptionsDialog('setName', _option.data('decoratorName'));
-		}
-	});
+	(function() {
+		
+		var activeOption;
+		
+		$('#optionsDialog')
+			.bind('save', function(e, name, kv) {
+				activeOption
+					.data('decoratorName', name)
+					.data('decoratorOptions', kv);
+			})
+			.decoratorOptionsDialog({
+				width:400,
+				kvContainer:'#decorator-options',
+				row:'decoratorOption',
+				autoOpen : false
+			});
+		
+		$('.bigListContainer')
+			.excangeableList()
+			.bind('options', function(e, option) {
+				activeOption = option;
+				$('#optionsDialog')
+					.decoratorOptionsDialog('title', $(this).text() + ' options')
+					.decoratorOptionsDialog('set', option.data('decoratorOptions') || {'':''})
+					.decoratorOptionsDialog('name', option.data('decoratorName'))
+					.decoratorOptionsDialog('open');
+			});
+	})();
 	
 	hideLoader();
 });
 
 function addEmptyRow() {
-	var row = $($.trim(tmpl('row', {text:getRandomInt(1, 10000)})))
+	var row = $($.trim(tmpl('row', {text:Math.randRange(1, 10000)})))
 		.appendTo('#form-edit ul:first')
 		.find('select, input').uniform().end()
 		.find('input[title]').blur().end();
-};
-
-function getRandomInt(min, max) {
-	return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
 function hideLoader() {
 	$('.progress-container').fadeOut(800);
 };
 
-function getSelectedOptions(select) {
-	var options = select.options, selectedOptions = [];
-	for(var i=0;i<options.length;i++) {
-		if (options[i].selected) {
-			selectedOptions.push(options[i]);
-		}
-	}
-	return selectedOptions;
-}
-
-$.fn.excangeableList = function(config) {
-	var cfg = $.extend({
-		onSecondaryOptionDblClick:function() {}
-	}, config);
+$.fn.excangeableList = function() {
 	return this.each(function() {
 		var $this = $(this), 
 			primary = $this.find('.primary'), 
 			secondary = $this.find('.secondary');
-		$this.find('.leftArrow').click(function() {
-			var selectedOptions = getSelectedOptions(primary.get(0));
-			$(selectedOptions).clone().appendTo(secondary);
-			return false;
-		});
-		$this.find('.rightArrow').click(function() {
-			var selectedOptions = getSelectedOptions(secondary.get(0));
-			$(selectedOptions).remove();
-			return false;
-		});
-		$this.find('.upArrow').click(function() {
-			var selectedOptions = getSelectedOptions(secondary.get(0));
-			$(selectedOptions).each(function() {
-				var previous = this.previousSibling;
-				while (previous && previous.selected) {
-					previous = previous.previousSibling;
-				}
-				if (previous) {
-					$(this).insertBefore(previous);
-				}
+		$this
+			.find('.leftArrow').click(function(e) {
+				primary.children(':selected').clone().appendTo(secondary);
+				e.preventDefault();
+			}).end()
+			.find('.rightArrow').click(function(e) {
+				secondary.children(':selected').remove();
+				e.preventDefault();
+			}).end()
+			.find('.upArrow').click(function() {
+				secondary.children(':selected').each(function(e) {
+					var previous = this.previousSibling;
+					while (previous && previous.selected) {
+						previous = previous.previousSibling;
+					}
+					if (previous) {
+						$(this).insertBefore(previous);
+					}
+				});
+				e.preventDefault();
+			}).end()
+			.find('.downArrow').click(function() {
+				secondary.children(':selected').each(function(e) {
+					var next = this.nextSibling;
+					while (next && next.selected) {
+						next = next.nextSibling;
+					}
+					if (next) {
+						$(this).insertAfter(next);
+					}
+				});
+				e.preventDefault();
 			});
-			return false;
-		});
-		$this.find('.downArrow').click(function() {
-			var selectedOptions = getSelectedOptions(secondary.get(0));
-			$(selectedOptions).each(function() {
-				var next = this.nextSibling;
-				while (next && next.selected) {
-					next = next.nextSibling;
-				}
-				if (next) {
-					$(this).insertAfter(next);
-				}
-			});
-			return false;
-		});
-		primary.delegate('option', 'dblclick', function() {
+		primary.delegate('option', 'dblclick', function(e) {
 			$(this).clone().appendTo(secondary);
-			return false;
+			e.preventDefault();
 		});
-		secondary.delegate('option', 'dblclick', cfg.onSecondaryOptionDblClick);
+		secondary.delegate('option', 'dblclick', function(e) {
+			$this.trigger('options', [$(this)]);
+			e.preventDefault();
+		});
 	})
 };
 
 $.widget('zc.keyValueDialog', $.ui.dialog, {
 	widgetEventPrefix:'zc_',
 	options:{
-		onSave:function() {},
 		row:'',
 		kvContainer:'',
 		kv:{}
 	},
-	kv:{},
 	_create:function() {
-		debugger;
-		var self = this;
-		self.options.buttons = {
-			OK:function() {
-				if (typeof self.options.onSave == 'function') {
-					self.options.onSave.call(self, self.getKV());
-				}
+		var self = this, options = self.options, kv = options.kv;
+		options.buttons = {
+			OK : function() {
+				self.element.trigger('save', [self.name(), self.kv()]);
 				self.close();
 			}
 		};
 		
 		self.element
-			.delegate('.add-option', 'click', function() {
-				self.addKVRow();
-				return false;
+			.delegate('.add-option', 'click', function(e) {
+				self.kv('');
+				e.preventDefault();
 			})
-			.delegate('.remove-option', 'click', function() {
+			.delegate('.remove-option', 'click', function(e) {
 				$(this).parent().remove();
-				return false;
+				self.element.trigger('remove-option');
+				e.preventDefault();
 			});
 		
 		var isEmptyKV = true;
-		for (var key in self.options.kv) {
-			if (self.options.kv.hasOwnProperty(key)) {
-				self.addKVRow(key, self.options.kv[key]);
+		for (var key in kv) {
+			if (kv.hasOwnProperty(key)) {
+				self.kv(key, kv[key]);
 				isEmptyKV = false;
 			}
 		}
 		
 		if (isEmptyKV) {
-			self.addKVRow();
+			self.kv('');
 		}
 		
-		$.ui.dialog.prototype._create.call(this, self.options);
+		$.ui.dialog.prototype._create.call(this, options);
 	},
-	getKV:function() {
-		var kv = {};
-		this.element.find(this.options.kvContainer).children().each(function() {
-			var opts = $(this).find('input').map(function() {
-				return this.value;
+	kv : function(key, value) {
+		var options = this.options;
+		if (arguments.length == 0) {
+			//GET
+			var kv = {};
+			this.element.find(options.kvContainer).children().each(function() {
+				var opts = $(this).find('input').map(function() {
+					return this.value;
+				});
+				if (opts.length >= 2) {
+					kv[opts[0]] = opts[1];
+				}
 			});
-			if (opts.length >= 2) {
-				kv[opts[0]] = opts[1];
-			}
-		});
-		return kv;
-	},
-	addKVRow:function() {
-		var key = arguments[0] || '', value = arguments[1] || '';
-		if (this.options.row) {
-			this.element
-				.find(this.options.kvContainer).append(tmpl(this.options.row, {key:key, value:value})).end()
-				.find('input').uniform();
+			return kv;
 		}
-		return this;
+		else {
+			//ADD
+			key = key || '', value = value || '';
+			if (options.row) {
+				this.element
+					.find(options.kvContainer).append(tmpl(options.row, {key:key, value:value})).end()
+					.find('input').uniform();
+			}
+			this.element.trigger('add-option', [key, value]);
+			return this;
+		}
 	},
-	clearKVRows:function() {
+	clear:function() {
 		this.element.find(this.options.kvContainer).empty();
 		return this;
 	},
-	setKVRows:function(kv) {
-		this.clearKVRows();
+	set:function(kv) {
+		this.clear();
 		for (var key in kv) {
-			this.addKVRow(key, kv[key]);
+			if (kv.hasOwnProperty(key)) {
+				this.kv(key, kv[key]);
+			}
 		}
 		return this;
 	}
 });
 
 $.widget('zc.decoratorOptionsDialog', $.zc.keyValueDialog, {
-	getName:function() {
-		return this.element.find('input[name=decorator-name]').val();
-	},
-	setName:function(name) {
-		this.element.find('input[name=decorator-name]').val(name);
-		return this;
+	name:function(name) {
+		if (arguments.length == 0) {
+			return this.element.find('input[name=decorator-name]').val();
+		}
+		else {
+			this.element.find('input[name=decorator-name]').val(name);
+			return this;
+		}
+		
 	}
 });
