@@ -10,8 +10,8 @@
 				<dd><input type="text" name="prepareFunctionName" id="prepareFunctionName" value="" /><p class="description"><?=$this->translate('form.form.prepareFunctionNameDescription')?></p></dd>
 			</dl>
 		</fieldset>
-		<fieldset title="<?=$this->translate('form.form.decorators')?>">
-			<legend><?=$this->translate('form.form.decorators')?></legend>
+		<fieldset id="formDecorators" title="<?=$this->translate('form.form.decorators')?>" class="collapsible">
+			<legend><?=$this->translate('form.form.decorators')?><span class="collapsed">▲</span><span class="expanded">▼</span></legend>
 			<div class="bigListContainer">
 				<select id="availableFormDecorators" size="10" class="bigList primary left" multiple="multiple">
 					<? foreach($this->formDecorators as $decoratorType => $decoratorName) {?><option value="<?=$decoratorType?>"><?=$decoratorName?></option><? } ?>
@@ -30,8 +30,8 @@
 				
 			</div>
 		</fieldset>
-		<fieldset title="<?=$this->translate('form.form.elementDecorators')?>">
-			<legend><?=$this->translate('form.form.elementDecorators')?></legend>
+		<fieldset id="formElementDecorators" title="<?=$this->translate('form.form.elementDecorators')?>" class="collapsible">
+			<legend><?=$this->translate('form.form.elementDecorators')?><span class="collapsed">▲</span><span class="expanded">▼</span></legend>
 			<div class="bigListContainer">
 				<select id="availableFormElementDecorators" size="10" class="bigList primary left" multiple="multiple">
 					<? foreach($this->formElementDecorators as $decoratorType => $decoratorName) {?><option value="<?=$decoratorType?>"><?=$decoratorName?></option><? } ?>

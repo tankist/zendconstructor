@@ -101,6 +101,21 @@ $(function() {
 		placeholder: 'ui-state-highlight'
 	}); 
 	
+	$('fieldset.collapsible legend').click(function(e) {
+		var $this = $(this);
+		if ($this.hasClass('collapsed')) {
+			$this.siblings('.bigListContainer').slideDown(function() {
+				$this.removeClass('collapsed');
+			});
+		}
+		else {
+			$this.siblings('.bigListContainer').slideUp(function() {
+				$this.addClass('collapsed');
+			});
+		}
+		e.preventDefault();
+	});
+	
 	(function() {
 		
 		var activeOption;

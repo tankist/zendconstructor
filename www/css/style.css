@@ -11,9 +11,16 @@ fieldset {
 	padding: 5px;
 	overflow: hidden;
 	}
+	fieldset.collapsible legend span.collapsed, fieldset.collapsible legend.collapsed span.expanded {
+		display: none;
+	}
+	fieldset.collapsible legend.collapsed span.collapsed, fieldset.collapsible legend span.expanded {
+		display: inline;
+	}
 legend {
 	font-weight:bold;
 	padding:5px;
+	cursor: pointer;
 	}
 .left {
 	float: left;
