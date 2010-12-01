@@ -173,8 +173,8 @@ $.fn.excangeableList = function() {
 				secondary.children(':selected').remove();
 				e.preventDefault();
 			}).end()
-			.find('.upArrow').click(function() {
-				secondary.children(':selected').each(function(e) {
+			.find('.upArrow').click(function(e) {
+				secondary.children(':selected').each(function() {
 					var previous = this.previousSibling;
 					while (previous && previous.selected) {
 						previous = previous.previousSibling;
@@ -185,8 +185,8 @@ $.fn.excangeableList = function() {
 				});
 				e.preventDefault();
 			}).end()
-			.find('.downArrow').click(function() {
-				secondary.children(':selected').each(function(e) {
+			.find('.downArrow').click(function(e) {
+				secondary.children(':selected').each(function() {
 					var next = this.nextSibling;
 					while (next && next.selected) {
 						next = next.nextSibling;
@@ -258,6 +258,9 @@ $.widget('zc.keyValueDialog', $.ui.dialog, {
 				var opts = $(this).find('input').map(function() {
 					return this.value;
 				});
+				if (opts[0] == '') {
+					return;
+				}
 				if (opts.length >= 2) {
 					kv[opts[0]] = opts[1];
 				}
@@ -281,11 +284,16 @@ $.widget('zc.keyValueDialog', $.ui.dialog, {
 		return this;
 	},
 	set:function(kv) {
+		var _rowAdded = false;
 		this.clear();
 		for (var key in kv) {
 			if (kv.hasOwnProperty(key)) {
 				this.kv(key, kv[key]);
+				_rowAdded = true;
 			}
+		}
+		if (!_rowAdded) {
+			this.kv('');
 		}
 		return this;
 	}
