@@ -10,47 +10,45 @@
 				<dd><input type="text" name="prepareFunctionName" id="prepareFunctionName" value="" /><p class="description"><?=$this->translate('form.form.prepareFunctionNameDescription')?></p></dd>
 			</dl>
 		</fieldset>
-		<fieldset id="formDecorators" title="<?=$this->translate('form.form.decorators')?>" class="collapsible">
+		<fieldset id="formDecorators" title="<?=$this->translate('form.form.decorators')?>" class="collapsible half left">
 			<legend><?=$this->translate('form.form.decorators')?><span class="collapsed">▲</span><span class="expanded">▼</span></legend>
-			<div class="bigListContainer">
-				<select id="availableFormDecorators" size="10" class="bigList primary left" multiple="multiple">
-					<? foreach($this->formDecorators as $decoratorType => $decoratorName) {?><option value="<?=$decoratorType?>"><?=$decoratorName?></option><? } ?>
-				</select>
-				<div class="centerButtons">
-					<button class="arrow leftArrow">►</button><br />
-					<button class="arrow rightArrow">◄</button>
-				</div>
-				<div class="right secondaryContainer">
-					<select name="formDecorators[]" id="selectedFormDecorators" size="10" class="bigList secondary" multiple="multiple"></select>
-					<div class="upDownButtons">
-						<button class="arrow upArrow">▲</button><br />
-						<button class="arrow downArrow">▼</button>
+			<div class="fieldsetContainer">
+				<div class="bigListContainer">
+					<select id="availableFormDecorators" size="8" class="bigList primary left" multiple="multiple">
+						<? foreach($this->formDecorators as $decoratorType => $decoratorName) {?><option value="<?=$decoratorType?>"><?=$decoratorName?></option><? } ?>
+					</select>
+					<div class="centerButtons">
+						<button class="arrow leftArrow">►</button><br />
+						<button class="arrow rightArrow">◄</button>
 					</div>
+					<select name="formDecorators[]" id="selectedFormDecorators" size="8" class="bigList secondary right" multiple="multiple"></select>
 				</div>
-				
+				<div class="upDownButtons">
+					<button class="arrow upArrow">▲</button><br />
+					<button class="arrow downArrow">▼</button>
+				</div>
 			</div>
 		</fieldset>
-		<fieldset id="formElementDecorators" title="<?=$this->translate('form.form.elementDecorators')?>" class="collapsible">
+		<fieldset id="formElementDecorators" title="<?=$this->translate('form.form.elementDecorators')?>" class="collapsible half right">
 			<legend><?=$this->translate('form.form.elementDecorators')?><span class="collapsed">▲</span><span class="expanded">▼</span></legend>
-			<div class="bigListContainer">
-				<select id="availableFormElementDecorators" size="10" class="bigList primary left" multiple="multiple">
-					<? foreach($this->formElementDecorators as $decoratorType => $decoratorName) {?><option value="<?=$decoratorType?>"><?=$decoratorName?></option><? } ?>
-				</select>
-				<div class="centerButtons">
-					<button class="arrow leftArrow">►</button><br />
-					<button class="arrow rightArrow">◄</button>
-				</div>
-				<div class="right secondaryContainer">
-					<select name="formElementDecorators[]" id="selectedFormElementDecorators" size="10" class="bigList secondary" multiple="multiple"></select>
-					<div class="upDownButtons">
-						<button class="arrow upArrow">▲</button><br />
-						<button class="arrow downArrow">▼</button>
+			<div class="fieldsetContainer">
+				<div class="bigListContainer">
+					<select id="availableFormElementDecorators" size="8" class="bigList primary left" multiple="multiple">
+						<? foreach($this->formElementDecorators as $decoratorType => $decoratorName) {?><option value="<?=$decoratorType?>"><?=$decoratorName?></option><? } ?>
+					</select>
+					<div class="centerButtons">
+						<button class="arrow leftArrow">►</button><br />
+						<button class="arrow rightArrow">◄</button>
 					</div>
+					<select name="formElementDecorators[]" id="selectedFormElementDecorators" size="8" class="bigList secondary right" multiple="multiple"></select>
 				</div>
-				
+				<div class="upDownButtons">
+					<button class="arrow upArrow">▲</button><br />
+					<button class="arrow downArrow">▼</button>
+				</div>
 			</div>
 		</fieldset>
-		<fieldset title="<?=$this->translate('form.form.elements')?>">
+		<fieldset title="<?=$this->translate('form.form.elements')?>" class="clear">
 			<legend><?=$this->translate('form.form.elements')?></legend>
 			<ul class="sortable form-elements">
 				
@@ -89,24 +87,25 @@
 
 <script type="text/html" id="row">
 	<li id="element_<%=text%>">
+		<div class="left buttons"><span class="drag button">&nbsp;</span></div>
 		<div class="editable-label-container left">
 			<input type="text" id="elementName_<%=text%>" title="<?=$this->translate('form.element.nameLabel')?>" name="item[<%=text%>][name]" />
 			<input type="text" id="elementLabel_<%=text%>" title="<?=$this->translate('form.element.labelLabel')?>" name="item[<%=text%>][elementOptions][label]" />
 		</div>
 		<div class="element left">
-			<div class="left">
+			<div class="element-container left">
 				<select id="item_<%=text%>" name="item[<%=text%>][type]">
 					<? foreach ($this->formElements as $key => $value) printf('<option value="%s"%s>%s</option>', $key, ($key==$this->selectedFormElement)?' selected':'', $value); ?>
-				</select>
+				</select>&nbsp;
 			</div>
-			<!--<div class="options-container left">
+			<div class="options-container left">
 				<span class="label left"><?=$this->translate('form.element.optionsLabel')?>:</span>
 				<ul class="options left">
 					<li><a href="#decorators"><?=$this->translate('form.element.decoratorsLabel')?></a></li>
-					<li><a href="#validators"><?=$this->translate('form.element.validatorsLabel')?></a></li>
-					<li class="last"><a href="#filters"><?=$this->translate('form.element.filtersLabel')?></a></li>
+					<!--<li><a href="#validators"><?=$this->translate('form.element.validatorsLabel')?></a></li>
+					<li><a href="#filters"><?=$this->translate('form.element.filtersLabel')?></a></li>-->
 				</ul>
-			</div>-->
+			</div>
 			<div class="required left">
 				<input type="hidden" name="item[<%=text%>][elementOptions][required]" value="0" />
 				<input type="checkbox" id="required_<%=text%>" name="item[<%=text%>][elementOptions][required]" value="1" />
@@ -118,7 +117,6 @@
 			<span class="plus left button">&nbsp;</span>
 			<span class="remove left button">&nbsp;</span>
 		</div>
-		&nbsp;
 	</li>
 </script>
 <?php
@@ -133,7 +131,7 @@ $this->headScript()
 	->appendFile('/js/highlight/highlight.js')
 	->appendFile('/js/highlight/php.js')
 	->appendFile('/js/jquery/jquery.form.js')
-	->appendFile('/js/uniform/jquery.uniform.min.js')
+//	->appendFile('/js/uniform/jquery.uniform.min.js')
 	->appendFile('/js/jquery/tmpl.js')
 	->appendFile('/js/form.js')
 	->appendFile('/js/html5.js', 'text/javascript', array('conditional' => 'lt IE 9'));
@@ -141,9 +139,8 @@ $this->headScript()
 $this->headLink()
 	->appendStylesheet('/css/reset.css')
 	->appendStylesheet('/css/jquery/jquery.ui.all.css')
-	->appendStylesheet('/css/uniform/css/uniform.default.css')
+//	->appendStylesheet('/css/uniform/css/uniform.default.css')
 	->appendStylesheet('/css/highlight/vs.css')
-	->appendStylesheet('/css/style.css')
 	->appendStylesheet('/css/style.css')
 	->appendStylesheet('/css/ie.css', 'all', 'lt IE 9');
 

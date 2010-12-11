@@ -6,17 +6,31 @@ body {
 a {
 	color: #06a6f2;
 }
+button {
+	background-color:#EEEEEE;
+	border:1px solid #AAAAAA;
+	margin: 1px;
+	}
+	button.arrow {
+		height:24px;
+		width:24px;
+		}
 fieldset {
 	border: 1px solid lightGrey;
 	padding: 5px;
 	overflow: hidden;
+	position: relative;
 	}
 	fieldset.collapsible legend span.collapsed, fieldset.collapsible legend.collapsed span.expanded {
 		display: none;
-	}
+		}
 	fieldset.collapsible legend.collapsed span.collapsed, fieldset.collapsible legend span.expanded {
 		display: inline;
-	}
+		}
+	fieldset.half {
+		width: 47%;
+		padding: 1%;
+		}
 legend {
 	font-weight:bold;
 	padding:5px;
@@ -28,7 +42,9 @@ legend {
 .right {
 	float: right;
 	}
-	
+.clear {
+	clear: both;
+	}
 #form-edit, .result-container {
 	width: 930px;
 	margin: 0 auto;
@@ -46,7 +62,12 @@ form dt {
 form dl {
 	overflow: hidden;
 }
-
+form dd, form dt {
+	padding:7px;
+}
+ul li:first-child, ul li.first {
+	border:none !important;
+	}
 span.button {
 	width: 24px;
 	height: 24px;
@@ -55,6 +76,7 @@ span.button {
 	background-position: center center;
 	background-repeat: no-repeat;
 	margin-left: 5px;
+	display: inline-block;
 	}
 
 div.element {
@@ -63,8 +85,7 @@ div.element {
 		margin-top: 2px;
 		}
 	div.element div.required {
-		margin-top: 4px;
-		margin-left: 50px;
+		padding-left: 50px;
 		}
 		div.element div.required label {
 			line-height: 18px;
@@ -75,6 +96,8 @@ div.element {
 
 span.drag {
 	background-image: url('/images/icons/move_16.png');
+	margin: 0 5px 0 0;
+	cursor:move;
 }
 
 span.plus {
@@ -86,7 +109,6 @@ span.remove {
 }
 ul.form-elements {
 	border: 1px dashed #CCCCCC;
-	border-top: none;
 	}
 	ul.form-elements > li {
 		clear: both;
@@ -94,10 +116,17 @@ ul.form-elements {
 		overflow: hidden;
 		padding: 7px;
 		}
+	ul.form-elements input, ul.form-elements select {
+		vertical-align: middle;
+		height: 17px;
+		}
+	ul.form-elements div {
+		line-height: 26px;
+		}
 
 div.editable-label-container {
 	margin-right: 20px;
-	margin-top: 4px;
+	/*margin-top: 4px;*/
 	}
 	.editable-label-container input {
 		width: 100px;
@@ -140,7 +169,7 @@ div.editable-label-container {
 .defaultTextActive { 
 	color: #a1a1a1 !important; 
 	font-style: italic !important; 
-	font-size: 8px !important; 
+	font-size: 10px !important; 
 	}
 	
 /*** Temporary rules ***/
@@ -149,7 +178,7 @@ div.editable-label-container {
 	}
 
 div.options-container {
-	padding: 6px;
+	padding: 0 6px;
 	overflow: hidden;
 	}
 	div.options-container span.label {
@@ -161,38 +190,37 @@ ul.options {
 	ul.options > li {
 		display: inline;
 		border: none;
-		border-right: 1px solid black;
-		padding: 0 5px 1px 0;
+		border-left: 1px solid black;
+		padding: 0 0 1px 5px;
 		}
-		ul.options li.last {
-			border: none;
-			}
-
+		
+.fieldsetContainer {
+	position: relative;
+	overflow: hidden;
+	}
 .bigListContainer {
 	position: relative;
-	width: 600px;
-	margin: 0 auto;
+	margin-right : 35px;
 	overflow: hidden;
-}
-
+	}
 .bigList {
-	width: 200px;
-}
+	width: 40%;
+	}
 .centerButtons {
 	position: absolute;
 	top:50%;
 	left:50%;
-	margin: -30px 0 0 -44px;
+	margin: -26px 0 0 -13px;
 }
 .secondaryContainer {
 	position: relative;
 	width: 250px;
 	}
-	.secondaryContainer .upDownButtons {
-		position: absolute;
-		top:50%;
-		right :0;
-		margin-top : -30px;
+fieldset .upDownButtons {
+	position: absolute;
+	top:50%;
+	margin-top : -26px;
+	right: 0;
 	}
 .optionsDialog {
 	width: 350px;
@@ -211,4 +239,8 @@ ul.options {
 	font-size: 0.8em;
 	font-style: italic;
 	color: lightGray;
+}
+
+.ui-sortable-helper {
+	overflow: hidden;
 }

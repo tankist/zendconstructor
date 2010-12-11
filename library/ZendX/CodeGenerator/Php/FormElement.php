@@ -8,8 +8,8 @@ class ZendX_CodeGenerator_Php_FormElement extends ZendX_CodeGenerator_Php_Abstra
 	const FORM_ELEMENT_HASH = 'hash';
 	const FORM_ELEMENT_HIDDEN = 'hidden';
 	const FORM_ELEMENT_IMAGE = 'image';
-	const FORM_ELEMENT_MULTICHECKBOX = 'multicheckbox';
-	const FORM_ELEMENT_MULTISELECT = 'multiselect';
+	const FORM_ELEMENT_MULTICHECKBOX = 'multiCheckbox';
+	const FORM_ELEMENT_MULTISELECT = 'multiSelect';
 	const FORM_ELEMENT_PASSWORD = 'password';
 	const FORM_ELEMENT_RADIO = 'radio';
 	const FORM_ELEMENT_RESET = 'reset';
@@ -90,7 +90,7 @@ class ZendX_CodeGenerator_Php_FormElement extends ZendX_CodeGenerator_Php_Abstra
 			$elementText = "'$name', new $className('$name'$optionsText)";
 		}
 		else {
-			$elementText = "'$name', '$className'$optionsText";
+			$elementText = "'$className', '$name'$optionsText";
 		}
 		
 		return $elementText;

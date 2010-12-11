@@ -85,8 +85,8 @@ $(function() {
 			}
 		});
 	
-	$('#form-edit ').find('select, input, button').uniform();
-	$('#optionsDialog input').uniform();
+	//$('#form-edit ').find('select, input, button').uniform();
+	//$('#optionsDialog input').uniform();
 	
 	addEmptyRow();
 	addEmptyRow();
@@ -96,20 +96,20 @@ $(function() {
 	addEmptyRow();
 	
 	$('.sortable').sortable({
+		handle:'span.drag',
 		cancel:':input,button,.non-sortable,select',
-		cursor: 'move',
-		placeholder: 'ui-state-highlight'
+		placeholder: 'ui-state-highlight oh'
 	}); 
 	
 	$('fieldset.collapsible legend').click(function(e) {
 		var $this = $(this);
 		if ($this.hasClass('collapsed')) {
-			$this.siblings('.bigListContainer').slideDown(function() {
+			$this.parent().find('.bigListContainer').slideDown(function() {
 				$this.removeClass('collapsed');
 			});
 		}
 		else {
-			$this.siblings('.bigListContainer').slideUp(function() {
+			$this.parent().find('.bigListContainer').slideUp(function() {
 				$this.addClass('collapsed');
 			});
 		}
@@ -151,7 +151,7 @@ $(function() {
 function addEmptyRow() {
 	var row = $($.trim(tmpl('row', {text:Math.randRange(1, 10000)})))
 		.appendTo('#form-edit ul:first')
-		.find('select, input').uniform().end()
+		//.find('select, input').uniform().end()
 		.find('input[title]').blur().end();
 };
 
@@ -273,7 +273,7 @@ $.widget('zc.keyValueDialog', $.ui.dialog, {
 			if (options.row) {
 				this.element
 					.find(options.kvContainer).append(tmpl(options.row, {key:key, value:value})).end()
-					.find('input').uniform();
+					/*.find('input').uniform()*/;
 			}
 			this.element.trigger('add-option', [key, value]);
 			return this;
