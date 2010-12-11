@@ -85,9 +85,6 @@ $(function() {
 			}
 		});
 	
-	//$('#form-edit ').find('select, input, button').uniform();
-	//$('#optionsDialog input').uniform();
-	
 	addEmptyRow();
 	addEmptyRow();
 	addEmptyRow();
@@ -151,7 +148,6 @@ $(function() {
 function addEmptyRow() {
 	var row = $($.trim(tmpl('row', {text:Math.randRange(1, 10000)})))
 		.appendTo('#form-edit ul:first')
-		//.find('select, input').uniform().end()
 		.find('input[title]').blur().end();
 };
 
@@ -272,8 +268,7 @@ $.widget('zc.keyValueDialog', $.ui.dialog, {
 			key = key || '', value = value || '';
 			if (options.row) {
 				this.element
-					.find(options.kvContainer).append(tmpl(options.row, {key:key, value:value})).end()
-					/*.find('input').uniform()*/;
+					.find(options.kvContainer).append(tmpl(options.row, {key:key, value:value})).end();
 			}
 			this.element.trigger('add-option', [key, value]);
 			return this;
