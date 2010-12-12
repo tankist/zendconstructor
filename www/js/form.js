@@ -1,3 +1,11 @@
+var formDataDefaultValues = {
+	className : 'Form',
+	prepareFunctionName : '',
+	decorators : [],
+	elementDecorators : [],
+	elements : {}
+};
+
 Math.randRange = function(min, max) {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 };
@@ -16,35 +24,54 @@ $(function() {
 			$('.progress-container').fadeIn(500);
 		},
 		beforeSerialize: function(form, options) {
-			var hC = $('#hiddenContainer').empty();
-			
-			function _createHiddenFields(hiddenFieldName) {
-				var name = $(this).data('decoratorName'), 
-					options = $(this).data('decoratorOptions');
-				hiddenFieldName += '[' + this.index + ']';
-				if (!name && !options) {
-					return;
+			function wrapValueToObject(keys, value) {
+				var ar = value, keys = keys.reverse();
+				for (var i=0;i<keys.length;i++) {
+					var _e = ar;
+					ar = {};
+					ar[keys[i]] = _e;
 				}
-				if (name) {
-					$('<input type="hidden" name="' + hiddenFieldName + '[decoratorName]">').val(name).appendTo(hC);
-				}
-				if (options) {
-					var optionsString = JSON.stringify(options);
-					$('<input type="hidden" name="' + hiddenFieldName + '[decoratorOptions]">').val(optionsString).appendTo(hC);
-				}
-				$('<input type="hidden" name="' + hiddenFieldName + '[decoratorType]">').val(this.value).appendTo(hC);
+				return ar;
 			}
 			
-			$('#selectedFormDecorators option').each(function () {
-				_createHiddenFields.call(this, 'formDecorators');
-			});
-			$('#selectedFormElementDecorators option').each(function () {
-				_createHiddenFields.call(this, 'formElementDecorators');
+			var hC = $('#hiddenContainer').empty();
+			
+			var formData = formDataDefaultValues;
+			
+			$('input[rel], select[rel]').each(function() {
+				var rel = $(this).attr('rel');
+				if (!rel) return;
+				$.extend(true, formData, wrapValueToObject(rel.split('.'), this.value));
 			});
 			
-			$('select.secondary option').each(function() {
-				this.selected = true;
+			//Serialize form decorators
+			$('#selectedFormDecorators option').each(function () {
+				var decorator = $(this).data('decorator') || {};
+				decorator.decorator = this.value;
+				formData.decorators.push(decorator);
 			});
+			//Serialize common form elements decorators
+			$('#selectedFormElementDecorators option').each(function () {
+				var decorator = $(this).data('decorator') || {};
+				decorator.decorator = this.value;
+				formData.elementDecorators.push(decorator);
+			});
+			//Serialize form elements
+			$('ul.form-elements li').each(function() {
+				var elements = {}, matches, _opts = $(this).find('input, select').serializeArray();
+				for (var i=0;i<_opts.length;i++) {
+					if (matches = _opts[i].name.match(/item\[([\w\d\.]+)\]/i)) {
+						matches = matches[1].split('.');
+						var element_id = matches[0] * 1;
+						elements = $.extend(true, elements, wrapValueToObject(matches, _opts[i].value));
+					}
+				}
+				$.extend(true, formData.elements, elements);
+			});
+			
+			console.log(formData);
+			console.log(JSON.stringify(formData));
+			return false;
 		},
 		success: function(data) {
 			if (!data.code) {
@@ -83,6 +110,10 @@ $(function() {
 			if (_this.val() == '') {
 				_this.val(_this.attr('title')).addClass("defaultTextActive");
 			}
+		})
+		.delegate('a.decoratorsLink', 'click', function(e) {
+			$('#elementDecoratorsDialog').dialog('open');
+			e.preventDefault();
 		});
 	
 	addEmptyRow();
@@ -119,9 +150,10 @@ $(function() {
 		
 		$('#optionsDialog')
 			.bind('save', function(e, name, kv) {
-				activeOption
-					.data('decoratorName', name)
-					.data('decoratorOptions', kv);
+				activeOption.data('decorator', {
+					name : name,
+					options : kv
+				});
 			})
 			.decoratorOptionsDialog({
 				width:400,
@@ -134,12 +166,33 @@ $(function() {
 			.excangeableList()
 			.bind('options', function(e, option) {
 				activeOption = option;
+				var decorator = option.data('decorator') || {};
 				$('#optionsDialog')
 					.decoratorOptionsDialog('title', $(this).text() + ' options')
-					.decoratorOptionsDialog('set', option.data('decoratorOptions') || {'':''})
-					.decoratorOptionsDialog('name', option.data('decoratorName'))
+					.decoratorOptionsDialog('set', decorator.options || {'':''})
+					.decoratorOptionsDialog('name', decorator.name || '')
 					.decoratorOptionsDialog('open');
 			});
+	})();
+	
+	(function() {
+		
+		$('#elementDecoratorsDialog')
+			.dialog({
+				width:600,
+				minWidth:300,
+				autoOpen : false,
+				buttons:{
+					OK : function() {
+						
+					},
+					Cancel : function(e) {
+						$('#elementDecoratorsDialog').dialog('close');
+					}
+				},
+				modal : true
+			});
+		
 	})();
 	
 	hideLoader();
@@ -209,13 +262,17 @@ $.widget('zc.keyValueDialog', $.ui.dialog, {
 	options:{
 		row:'',
 		kvContainer:'',
-		kv:{}
+		kv:{},
+		modal : true
 	},
 	_create:function() {
 		var self = this, options = self.options, kv = options.kv;
 		options.buttons = {
 			OK : function() {
 				self.element.trigger('save', [self.name(), self.kv()]);
+				self.close();
+			},
+			Cancel : function() {
 				self.close();
 			}
 		};
