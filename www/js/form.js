@@ -1,9 +1,11 @@
-var formDataDefaultValues = {
-	className : 'Form',
-	prepareFunctionName : '',
-	decorators : [],
-	elementDecorators : [],
-	elements : {}
+var formDataDefaultValuesGenerator = function() {
+	return {
+		className : 'Form',
+		prepareFunctionName : '',
+		decorators : [],
+		elementDecorators : [],
+		elements : {}
+	};
 };
 
 Math.randRange = function(min, max) {
@@ -36,7 +38,7 @@ $(function() {
 			
 			var hC = $('#hiddenContainer').empty();
 			
-			var formData = formDataDefaultValues;
+			var formData = formDataDefaultValuesGenerator();
 			
 			$('input[rel], select[rel]').each(function() {
 				var rel = $(this).attr('rel');
@@ -63,30 +65,29 @@ $(function() {
 					if (matches = _opts[i].name.match(/item\[([\w\d\.]+)\]/i)) {
 						matches = matches[1].split('.');
 						var element_id = matches[0] * 1;
-						elements = $.extend(true, elements, wrapValueToObject(matches, _opts[i].value));
+						$.extend(true, elements, wrapValueToObject(matches, _opts[i].value));
 					}
 				}
 				$.extend(true, formData.elements, elements);
 			});
 			
-			console.log(formData);
-			console.log(JSON.stringify(formData));
-			return false;
-		},
-		success: function(data) {
-			if (!data.code) {
-				throw new Error('Response failed');
-			}
-			
-			if ($('#formClass').length == 0) {
-				$('<div class="result"><div id="formClass" class="php"></div></div>').appendTo($('.result-container').empty());
-			}
-			
-			$('#formClass').html(data.code).each(function(index, element) {
-				hljs.highlightBlock(element);
+			$.post(form.attr('action'), formData, function(data) {
+				if (!data.code) {
+					throw new Error('Response failed');
+				}
+				
+				if ($('#formClass').length == 0) {
+					$('<div class="result"><div id="formClass" class="php"></div></div>').appendTo($('.result-container').empty());
+				}
+				
+				$('#formClass').html(data.code).each(function(index, element) {
+					hljs.highlightBlock(element);
+				});
+				hideLoader();
+				document.location.hash = 'result';
 			});
-			hideLoader();
-			document.location.hash = 'result';
+			
+			return false;
 		}
 	});
 	

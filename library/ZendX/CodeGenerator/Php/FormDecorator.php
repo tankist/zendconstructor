@@ -20,9 +20,9 @@ class ZendX_CodeGenerator_Php_FormDecorator extends ZendX_CodeGenerator_Php_Abst
 	
 	protected $_decoratorOptions = array();
 	
-	protected $_decoratorType = '';
+	protected $_decorator = '';
 	
-	protected $_decoratorName = '';
+	protected $_name = '';
 	
 	protected static $_predefinedFormDecorators = array(
 		self::FORM_ELEMENT_DECORATOR_CALLBACK => 'Callback',
@@ -51,8 +51,8 @@ class ZendX_CodeGenerator_Php_FormDecorator extends ZendX_CodeGenerator_Php_Abst
 		self::FORM_ELEMENT_DECORATOR_VIEWSCRIPT => 'Viewscript renderer'
 	);
 	
-	public function setDecoratorOptions($decoratorOptions = array()) {
-		$this->_decoratorOptions = (array)$decoratorOptions;
+	public function setDecoratorOptions($options = array()) {
+		$this->_decoratorOptions = (array)$options;
 		return $this;
 	}
 	
@@ -60,27 +60,27 @@ class ZendX_CodeGenerator_Php_FormDecorator extends ZendX_CodeGenerator_Php_Abst
 		return $this->_decoratorOptions;
 	}
 	
-	public function setDecoratorType($decoratorType = array()) {
-		$this->_decoratorType = $decoratorType;
+	public function setDecorator($decorator = array()) {
+		$this->_decorator = $decorator;
 		return $this;
 	}
 	
-	public function getDecoratorType() {
-		return $this->_decoratorType;
+	public function getDecorator() {
+		return $this->_decorator;
 	}
 	
-	public function setDecoratorName($decoratorName = array()) {
-		$this->_decoratorName = $decoratorName;
+	public function setName($name = array()) {
+		$this->_name = $name;
 		return $this;
 	}
 	
-	public function getDecoratorName() {
-		return $this->_decoratorName;
+	public function getName() {
+		return $this->_name;
 	}
 	
 	public function generate() {
 		$decoratorDefinition = $optionsDefinition = '';
-		$type = $this->getDecoratorType();
+		$type = $this->getDecorator();
 		if (empty($type)) {
 			throw new Zend_CodeGenerator_Exception('Decorator type must be defined');
 		}
@@ -95,7 +95,7 @@ class ZendX_CodeGenerator_Php_FormDecorator extends ZendX_CodeGenerator_Php_Abst
 			$decoratorDefinition = "new $type($optionsDefinition)";
 			$optionsDefinition = '';
 		}
-		if ($name = $this->getDecoratorName()) {
+		if ($name = $this->getName()) {
 			$decoratorDefinition = "array('$name' => $decoratorDefinition)";
 		}
 		if (!empty($optionsDefinition)) {

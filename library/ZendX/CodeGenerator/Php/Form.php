@@ -120,9 +120,13 @@ class ZendX_CodeGenerator_Php_Form extends Zend_CodeGenerator_Php_Class {
 			$decoratorsDefinition = array();
 			foreach ($formDecorators as $decorator) {
 				if (is_string($decorator)) {
-					$decorator = array('decoratorType' => $decorator);
+					$decorator = array('decorator' => $decorator);
 				}
-				if (is_array($decorator) && isset($decorator['decoratorType'])) {
+				if (is_array($decorator) && isset($decorator['decorator'])) {
+					if (array_key_exists('options', $decorator)) {
+						$decorator['decoratorOptions'] = $decorator['options'];
+						unset($decorator['options']);
+					}
 					$decoratorInstance = new ZendX_CodeGenerator_Php_FormDecorator($decorator);
 					$decoratorsDefinition[] = self::LINE_FEED . $this->getIndentation() . $decoratorInstance->generate();
 				}

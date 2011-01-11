@@ -23,14 +23,12 @@ class Form_IndexController extends Form_AbstractController {
 	{
 		$request = $this->getRequest();
 		if ($request->isPost()) {
-			$data = $request->getPost();
-			
-			$className = $this->_getParam('className', self::DEFAULT_CLASS_NAME);
+			$className = $request->getParam('className', self::DEFAULT_CLASS_NAME);
 			if (empty($className)) {
 				$className = self::DEFAULT_CLASS_NAME;
 			}
 			
-			$elementsArray = $data['item'];
+			$elementsArray = $request->getParam('elements', array());
 			
 			foreach ($elementsArray as &$element) {
 				settype($element['elementOptions']['required'], 'boolean');
@@ -39,20 +37,8 @@ class Form_IndexController extends Form_AbstractController {
 				}
 			}
 			
-			$formDecorators = (array)$data['formDecorators'];
-			$formElementDecorators = (array)$data['formElementDecorators'];
-			
-			foreach ($formDecorators as &$decorator) {
-				if (is_array($decorator) && is_string($decorator['decoratorOptions'])) {
-					$decorator['decoratorOptions'] = Zend_Json::decode(stripslashes($decorator['decoratorOptions']));
-				}
-			}
-			
-			foreach ($formElementDecorators as &$decorator) {
-				if (is_array($decorator) && is_string($decorator['decoratorOptions'])) {
-					$decorator['decoratorOptions'] = Zend_Json::decode(stripslashes($decorator['decoratorOptions']));
-				}
-			}
+			$formDecorators = $request->getParam('decorators', array());
+			$formElementDecorators = $request->getParam('elementDecorators', array());
 			
 			$generator = new ZendX_CodeGenerator_Php_Form(array(
 				'name' => $className,
@@ -61,7 +47,7 @@ class Form_IndexController extends Form_AbstractController {
 				'formElementDecorators' => $formElementDecorators
 			));
 			
-			$generator->setPrepareDecoratorsFunctionName($data['prepareFunctionName']);
+			$generator->setPrepareDecoratorsFunctionName($request->getParam('prepareFunctionName'));
 			
 			$this->view->code = $generator->generate();
 		}
