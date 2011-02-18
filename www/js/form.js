@@ -118,11 +118,6 @@ $(function() {
 		});
 	
 	addEmptyRow();
-	addEmptyRow();
-	addEmptyRow();
-	addEmptyRow();
-	addEmptyRow();
-	addEmptyRow();
 	
 	$('.sortable').sortable({
 		handle:'span.drag',
