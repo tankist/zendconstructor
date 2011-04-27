@@ -103,19 +103,19 @@
 </div>
 
 <script type="text/html" id="decoratorOption">
-	<li><input type="text" name="option-name" value="<%=key%>" />:<input type="text" name="option-value" value="<%=value%>" />(<a href="#remove-option" class="remove-option">remove</a>)</li>
+	<li><input type="text" name="option-name" value="{{=vars.key}}" />:<input type="text" name="option-value" value="{{=vars.value}}" />(<a href="#remove-option" class="remove-option">remove</a>)</li>
 </script>
 
 <script type="text/html" id="row">
-	<li id="element_<%=text%>">
+	<li id="element_{{=vars.text}}">
 		<div class="left buttons"><span class="drag button">&nbsp;</span></div>
 		<div class="editable-label-container left">
-			<input type="text" id="elementName_<%=text%>" title="<?=$this->translate('form.element.nameLabel')?>" name="item[<%=text%>.name]" />
-			<input type="text" id="elementLabel_<%=text%>" title="<?=$this->translate('form.element.labelLabel')?>" name="item[<%=text%>.elementOptions.label]" />
+			<input type="text" id="elementName_{{=vars.text}}" title="<?=$this->translate('form.element.nameLabel')?>" name="item[{{=vars.text}}.name]" />
+			<input type="text" id="elementLabel_{{=vars.text}}" title="<?=$this->translate('form.element.labelLabel')?>" name="item[{{=vars.text}}.elementOptions.label]" />
 		</div>
 		<div class="element left">
 			<div class="element-container left">
-				<select id="item_<%=text%>" name="item[<%=text%>.type]">
+				<select id="item_{{=vars.text}}" name="item[{{=vars.text}}.type]">
 					<? foreach ($this->formElements as $key => $value) printf('<option value="%s"%s>%s</option>', $key, ($key==$this->selectedFormElement)?' selected':'', $value); ?>
 				</select>&nbsp;
 			</div>
@@ -128,9 +128,9 @@
 				</ul>
 			</div>
 			<div class="required left">
-				<input type="hidden" name="item[<%=text%>.elementOptions.required]" value="0" />
-				<input type="checkbox" id="required_<%=text%>" name="item[<%=text%>.elementOptions.required]" value="1" />
-				<label for="required_<%=text%>"><?=$this->translate('form.element.requiredLabel')?></label>
+				<input type="hidden" name="item[{{=vars.text}}.elementOptions.required]" value="0" />
+				<input type="checkbox" id="required_{{=vars.text}}" name="item[{{=vars.text}}.elementOptions.required]" value="1" />
+				<label for="required_{{=vars.text}}"><?=$this->translate('form.element.requiredLabel')?></label>
 			</div>
 			
 		</div>
@@ -143,24 +143,12 @@
 <?php
 
 $this->headScript()
-	->appendFile('/js/underscore/underscore.js')
-	->appendFile('/js/backbone/backbone.js')
-	->appendFile('/js/jquery/jquery-1.4.4.js')
-	->appendFile('/js/jquery/jquery-ui.js')
-//			->appendFile('http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js')
-//			->appendFile('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/jquery-ui.min.js')
-	->appendFile('/js/highlight/highlight.js')
+	->appendFile('/js/highlight/highlight.pack.js')
 	->appendFile('/js/highlight/php.js')
-	->appendFile('/js/jquery/jquery.form.js')
-	->appendFile('/js/jquery/tmpl.js')
-	->appendFile('/js/form.js')
-	->appendFile('/js/html5.js', 'text/javascript', array('conditional' => 'lt IE 9'));
+	->appendFile('/js/form.js');
 
 $this->headLink()
-	->appendStylesheet('/css/reset.css')
-	->appendStylesheet('/css/jquery/jquery.ui.all.css')
 	->appendStylesheet('/css/highlight/vs.css')
-	->appendStylesheet('/css/style.css')
-	->appendStylesheet('/css/ie.css', 'all', 'lt IE 9');
+	->appendStylesheet('/css/style.css');
 
 ?>

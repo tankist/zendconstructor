@@ -1,5 +1,11 @@
 <!DOCTYPE html>
 <html>
+<?php
+$this->headLink()
+	->appendStylesheet('/css/reset.css')
+	->appendStylesheet('/css/jquery/jquery.ui.all.css')
+	->appendStylesheet('/css/ie.css', 'all', 'lt IE 9');
+?>
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
 	<?=$this->headTitle()?>
@@ -11,6 +17,17 @@
 <body>
 	<h1>Zend Framework Form Generator</h1>
 	<?=$this->layout()->content?>
+<?php
+
+$this->headScript()
+	->prependFile('/js/jquery/jquery-ui.js')
+	->prependFile('/js/jquery/jquery-1.5.2.js')
+//			->prependFile('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js')
+//			->prependFile('http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js')
+	->appendFile('/js/jquery/jquery.form.js')
+	->appendFile('/js/dot.js')
+	->appendFile('/js/html5.js', null, array('conditional' => 'lt IE 9'));
+?>
 	<?=$this->headScript()?>
 <script type="text/javascript">
 

@@ -12,13 +12,23 @@ Math.randRange = function(min, max) {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-var FormsController = Backbone.Controller.extend({
-	routes : {
-		
-	}
-});
-
 $(function() {
+
+	function addEmptyRow() {
+		var row = $(addEmptyRowTmpl({text:Math.randRange(1, 10000)}))
+			.appendTo('#form-edit ul:first')
+			.find('input[title]').blur().end();
+	}
+
+	function hideLoader() {
+		$('.progress-container').fadeOut(800);
+	}
+
+	$.extend(doT.templateSettings, {
+		varname : 'vars'
+	});
+
+	var addEmptyRowTmpl = doT.template(document.getElementById('row').innerHTML);
 	
 	$('form').ajaxForm({
 		dataType:'json',
@@ -27,11 +37,11 @@ $(function() {
 		},
 		beforeSerialize: function(form, options) {
 			function wrapValueToObject(keys, value) {
-				var ar = value, keys = keys.reverse();
-				for (var i=0;i<keys.length;i++) {
+				var ar = value, k = keys.reverse();
+				for (var i=0;i<k.length;i++) {
 					var _e = ar;
 					ar = {};
-					ar[keys[i]] = _e;
+					ar[k[i]] = _e;
 				}
 				return ar;
 			}
@@ -194,16 +204,6 @@ $(function() {
 	hideLoader();
 });
 
-function addEmptyRow() {
-	var row = $($.trim(tmpl('row', {text:Math.randRange(1, 10000)})))
-		.appendTo('#form-edit ul:first')
-		.find('input[title]').blur().end();
-};
-
-function hideLoader() {
-	$('.progress-container').fadeOut(800);
-};
-
 $.fn.excangeableList = function() {
 	return this.each(function() {
 		var $this = $(this), 
@@ -283,6 +283,8 @@ $.widget('zc.keyValueDialog', $.ui.dialog, {
 				self.element.trigger('remove-option');
 				e.preventDefault();
 			});
+
+		options.kvTemplate = doT.template(options.row);
 		
 		var isEmptyKV = true;
 		for (var key in kv) {
@@ -321,7 +323,7 @@ $.widget('zc.keyValueDialog', $.ui.dialog, {
 			key = key || '', value = value || '';
 			if (options.row) {
 				this.element
-					.find(options.kvContainer).append(tmpl(options.row, {key:key, value:value})).end();
+					.find(options.kvContainer).append(options.kvTemplate({key:key, value:value})).end();
 			}
 			this.element.trigger('add-option', [key, value]);
 			return this;
@@ -356,6 +358,5 @@ $.widget('zc.decoratorOptionsDialog', $.zc.keyValueDialog, {
 			this.element.find('input[name=decorator-name]').val(name);
 			return this;
 		}
-		
 	}
 });
