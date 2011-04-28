@@ -63,7 +63,7 @@
 <div class="result-container">
 	<a name="result">&nbsp;</a>
 	<div class="result">
-		<div id="formClass" class="php"></div>
+		<div id="formClass" class="php"><pre></pre></div>
 	</div>
 </div>
 <div class="progress-container">
@@ -143,12 +143,12 @@
 <?php
 
 $this->headScript()
-	->appendFile('/js/highlight/highlight.pack.js')
+	->appendFile('/js/highlight/highlight.js')
 	->appendFile('/js/highlight/php.js')
 	->appendFile('/js/form.js');
 
 $this->headLink()
-	->appendStylesheet('/css/highlight/vs.css')
+	->appendStylesheet('/css/highlight/github.css')
 	->appendStylesheet('/css/style.css');
 
 ?>

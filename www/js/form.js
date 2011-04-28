@@ -87,10 +87,10 @@ $(function() {
 				}
 				
 				if ($('#formClass').length == 0) {
-					$('<div class="result"><div id="formClass" class="php"></div></div>').appendTo($('.result-container').empty());
+					$('<div class="result"><div id="formClass" class="php"><pre></pre></div></div>').appendTo($('.result-container').empty());
 				}
 				
-				$('#formClass').html(data.code).each(function(index, element) {
+				$('#formClass').find('pre').html(data.code).each(function(index, element) {
 					hljs.highlightBlock(element);
 				});
 				hideLoader();
