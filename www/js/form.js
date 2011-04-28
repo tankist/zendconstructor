@@ -174,7 +174,7 @@ $(function() {
 				activeOption = option;
 				var decorator = option.data('decorator') || {};
 				$('#optionsDialog')
-					.decoratorOptionsDialog('title', $(this).text() + ' options')
+					.decoratorOptionsDialog('option', 'title', $(activeOption).text() + ' options')
 					.decoratorOptionsDialog('set', decorator.options || {'':''})
 					.decoratorOptionsDialog('name', decorator.name || '')
 					.decoratorOptionsDialog('open');
@@ -185,15 +185,16 @@ $(function() {
 		
 		$('#elementDecoratorsDialog')
 			.dialog({
-				width:600,
-				minWidth:300,
+				title : 'Декораторы элемента',
+				width : 600,
+				minWidth : 300,
 				autoOpen : false,
-				buttons:{
+				buttons : {
 					OK : function() {
 						
 					},
 					Cancel : function(e) {
-						$('#elementDecoratorsDialog').dialog('close');
+						$(this).dialog('close');
 					}
 				},
 				modal : true

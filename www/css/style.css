@@ -200,9 +200,13 @@ ul.options {
 	}
 .bigListContainer {
 	position: relative;
-	margin-right : 35px;
+	padding-right : 35px;
 	overflow: hidden;
 	}
+	.bigListContainer button {
+		margin: 2px 0;
+		display:block;
+		}
 .bigList {
 	width: 40%;
 	}
@@ -210,7 +214,7 @@ ul.options {
 	position: absolute;
 	top:50%;
 	left:50%;
-	margin: -26px 0 0 -13px;
+	margin: -24px 0 0 -30px;
 }
 .secondaryContainer {
 	position: relative;

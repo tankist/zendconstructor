@@ -29,6 +29,7 @@ $this->headScript()
 	->appendFile('/js/html5.js', null, array('conditional' => 'lt IE 9'));
 ?>
 	<?=$this->headScript()?>
+<?php if (APPLICATION_ENV == 'production') { ?>
 <script type="text/javascript">
 
   var _gaq = _gaq || [];
@@ -58,5 +59,6 @@ $this->headScript()
 <script src="//mc.yandex.ru/metrika/watch.js" type="text/javascript" defer="defer"></script>
 <noscript><div style="position:absolute"><img src="//mc.yandex.ru/watch/4551391" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
+<? } ?>
 </body>
 </html>

@@ -18,14 +18,14 @@
 						<? foreach($this->formDecorators as $decoratorType => $decoratorName) {?><option value="<?=$decoratorType?>"><?=$decoratorName?></option><? } ?>
 					</select>
 					<div class="centerButtons">
-						<button class="arrow leftArrow">►</button><br />
-						<button class="arrow rightArrow">◄</button>
+						<button type="button" class="arrow leftArrow">►</button>
+						<button type="button" class="arrow rightArrow">◄</button>
 					</div>
 					<select name="formDecorators[]" id="selectedFormDecorators" size="8" class="bigList secondary right" multiple="multiple"></select>
-				</div>
-				<div class="upDownButtons">
-					<button class="arrow upArrow">▲</button><br />
-					<button class="arrow downArrow">▼</button>
+					<div class="upDownButtons">
+						<button type="button" class="arrow upArrow">▲</button>
+						<button type="button" class="arrow downArrow">▼</button>
+					</div>
 				</div>
 			</div>
 		</fieldset>
@@ -37,14 +37,14 @@
 						<? foreach($this->formElementDecorators as $decoratorType => $decoratorName) {?><option value="<?=$decoratorType?>"><?=$decoratorName?></option><? } ?>
 					</select>
 					<div class="centerButtons">
-						<button class="arrow leftArrow">►</button><br />
-						<button class="arrow rightArrow">◄</button>
+						<button type="button" class="arrow leftArrow">►</button>
+						<button type="button" class="arrow rightArrow">◄</button>
 					</div>
 					<select name="formElementDecorators[]" id="selectedFormElementDecorators" size="8" class="bigList secondary right" multiple="multiple"></select>
-				</div>
-				<div class="upDownButtons">
-					<button class="arrow upArrow">▲</button><br />
-					<button class="arrow downArrow">▼</button>
+					<div class="upDownButtons">
+						<button type="button" class="arrow upArrow">▲</button>
+						<button type="button" class="arrow downArrow">▼</button>
+					</div>
 				</div>
 			</div>
 		</fieldset>
@@ -89,14 +89,14 @@
 					<? foreach($this->formElementDecorators as $decoratorType => $decoratorName) {?><option value="<?=$decoratorType?>"><?=$decoratorName?></option><? } ?>
 				</select>
 				<div class="centerButtons">
-					<button class="arrow leftArrow">►</button><br />
+					<button class="arrow leftArrow">►</button>
 					<button class="arrow rightArrow">◄</button>
 				</div>
 				<select name="formElementDecorators[]" id="selectedDecorators" size="8" class="bigList secondary right" multiple="multiple"></select>
-			</div>
-			<div class="upDownButtons">
-				<button class="arrow upArrow">▲</button><br />
-				<button class="arrow downArrow">▼</button>
+				<div class="upDownButtons">
+					<button class="arrow upArrow">▲</button>
+					<button class="arrow downArrow">▼</button>
+				</div>
 			</div>
 		</div>
 	</fieldset>
