@@ -164,7 +164,7 @@ $(function() {
 			.decoratorOptionsDialog({
 				width:400,
 				kvContainer:'#decorator-options',
-				row:'decoratorOption',
+				row:document.getElementById('decoratorOption').innerHTML,
 				autoOpen : false
 			});
 		
