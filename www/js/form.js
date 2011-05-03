@@ -12,6 +12,24 @@ Math.randRange = function(min, max) {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
+(function() {
+	function ZCFormElement() {
+
+	}
+
+	function ZCFormDecorator() {
+
+	}
+
+	function ZCForm() {
+
+	}
+
+	ZCForm.prototype.addElement = function(type, name, options) {
+
+	};
+})();
+
 $(function() {
 
 	function addEmptyRow() {
