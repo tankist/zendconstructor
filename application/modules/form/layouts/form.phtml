@@ -7,16 +7,16 @@ $this->headLink()
 	->appendStylesheet('/css/ie.css', 'all', 'lt IE 9');
 ?>
 <head>
-	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
 	<?=$this->headTitle()?>
 	<?=$this->headLink()?>
-	<meta name="description" content="Zend Framework Form Generator" /> 
-	<meta name="keywords" content="Zend Framework, Zend, form, форма, генератор, generator, Zend_Form" /> 
-	<meta name="robots" content="noodp,noydir" />
+	<meta name="description" content="Zend Framework Form Generator"/>
+	<meta name="keywords" content="Zend Framework, Zend, form, форма, генератор, generator, Zend_Form"/>
+	<meta name="robots" content="noodp,noydir"/>
 </head>
 <body>
-	<h1>Zend Framework Form Generator</h1>
-	<?=$this->layout()->content?>
+<h1>Zend Framework Form Generator</h1>
+<?=$this->layout()->content?>
 <?php
 
 $this->headScript()
@@ -28,37 +28,57 @@ $this->headScript()
 	->appendFile('/js/dot.js')
 	->appendFile('/js/html5.js', null, array('conditional' => 'lt IE 9'));
 ?>
-	<?=$this->headScript()?>
+<?=$this->headScript()?>
 <?php if (APPLICATION_ENV == 'production') { ?>
 <script type="text/javascript">
 
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-21499766-1']);
-  _gaq.push(['_trackPageview']);
+	var _gaq = _gaq || [];
+	_gaq.push(['_setAccount', 'UA-21499766-1']);
+	_gaq.push(['_trackPageview']);
 
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
+	(function() {
+		var ga = document.createElement('script');
+		ga.type = 'text/javascript';
+		ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0];
+		s.parentNode.insertBefore(ga, s);
+	})();
 
 </script>
 <!-- Yandex.Metrika counter -->
-<div style="display:none;"><script type="text/javascript">
-(function(w, c) {
-    (w[c] = w[c] || []).push(function() {
-        try {
-            w.yaCounter4551391 = new Ya.Metrika(4551391);
-             yaCounter4551391.clickmap(true);
-             yaCounter4551391.trackLinks(true);
-        
-        } catch(e) { }
-    });
-})(window, 'yandex_metrika_callbacks');
-</script></div>
+<div style="display:none;">
+	<script type="text/javascript">
+		(function(w, c) {
+			(w[c] = w[c] || []).push(function() {
+				try {
+					w.yaCounter4551391 = new Ya.Metrika(4551391);
+					yaCounter4551391.clickmap(true);
+					yaCounter4551391.trackLinks(true);
+
+				} catch(e) {
+				}
+			});
+		})(window, 'yandex_metrika_callbacks');
+	</script>
+</div>
 <script src="//mc.yandex.ru/metrika/watch.js" type="text/javascript" defer="defer"></script>
-<noscript><div style="position:absolute"><img src="//mc.yandex.ru/watch/4551391" alt="" /></div></noscript>
+<noscript>
+	<div style="position:absolute"><img src="//mc.yandex.ru/watch/4551391" alt=""/></div>
+</noscript>
 <!-- /Yandex.Metrika counter -->
-<? } ?>
+<!-- Copiny widget -->
+<script type="text/javascript" charset="utf-8">
+	var proto = (document.location.protocol == 'https:') ? 'https:' : 'http:';
+	var host = proto + '//widget.copiny.com';
+	document.write(unescape("%3Cscript src='" + host + "/static/js/widget.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript" charset="utf-8">
+var copinyWidgetOptions = {position: 'left',hostcommunity:'http://zendconstructor.copiny.com',newwindow: '0',type: 'idea',color: '#00962d',border: '#136361',round: '1',title: 'Обратная связь',cache:   '9ca936d041c7637244c3fb8ef4a8ea6c/9ca936d041c7637244c3fb8ef4a8ea6c/ejOwVXUxULV0BZFOhqouhqoWBmC2AZhtBGa7IIm4aYMpQ7CQEUQIzDYHs50B',community:1206};
+initCopinyWidget(copinyWidgetOptions);
+CopinyWidget.showTab();
+</script>
+<!-- /Copiny widget -->
+	<? } ?>
 </body>
 </html>
